@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Интерактивная игра по теме «Типы стартапов и их особенности»">
+  <title>Стартап-миссия</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#game" aria-label="Стартап-миссия, перейти к игре">
+      <span class="brand-mark">LS</span><span>Стартап-миссия</span>
+    </a>
+    <div class="hud">
+      <span id="scoreLabel">0 очков</span>
+      <button id="soundBtn" class="icon-btn" type="button" aria-pressed="true" title="Выключить звук">🔊</button>
+    </div>
+  </header>
+
+  <main id="game" class="shell">
+    <section id="startScreen" class="screen active hero" aria-labelledby="gameTitle">
+      <div class="hero-copy">
+        <p class="eyebrow">Лекция 1 · Типы стартапов</p>
+        <h1 id="gameTitle">Запусти лингвистический стартап</h1>
+        <p class="lead">Пять миссий проверят, отличаете ли вы типы стартапов и понимаете ли, как цель проекта влияет на стратегию.</p>
+        <div class="mission-facts">
+          <span>≈ 10 минут</span><span>5 миссий</span><span>до 100 очков</span>
+        </div>
+        <button id="startBtn" class="primary" type="button">Начать миссию</button>
+      </div>
+      <div class="launch-visual" aria-label="Анимированная ракета лингвистического стартапа">
+        <div class="orbit orbit-one"><span>AI</span></div>
+        <div class="orbit orbit-two"><span>NLP</span></div>
+        <div class="planet"><span>Аа</span></div>
+        <div class="rocket">🚀</div>
+      </div>
+    </section>
+
+    <section id="playScreen" class="screen" aria-live="polite">
+      <div class="progress-wrap">
+        <div class="progress-meta"><span id="missionLabel">Миссия 1 из 5</span><span id="progressPercent">20%</span></div>
+        <div class="progress"><span id="progressBar"></span></div>
+      </div>
+      <div id="stage"></div>
+    </section>
+
+    <section id="resultScreen" class="screen result" aria-labelledby="resultTitle">
+      <div class="result-badge" id="resultBadge">🚀</div>
+      <p class="eyebrow">Миссия завершена</p>
+      <h2 id="resultTitle">Стартап вышел на орбиту</h2>
+      <p id="resultText" class="lead"></p>
+      <div class="score-ring"><strong id="finalScore">0</strong><span>из 100</span></div>
+      <div id="resultBreakdown" class="result-breakdown"></div>
+      <div class="result-actions">
+        <button id="restartBtn" class="primary" type="button">Пройти ещё раз</button>
+        <button id="copyBtn" class="secondary" type="button">Скопировать результат</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
