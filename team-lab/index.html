@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Интерактивное исследование команд лингвистических стартапов">
+  <title>Анатомия команды стартапа</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#app"><span class="logo">LS</span><span>Лаборатория команды</span></a>
+    <div class="status"><span id="saved">Сохранение включено</span><strong id="progressText">0%</strong></div>
+  </header>
+
+  <main id="app" class="shell">
+    <section id="welcome" class="screen active hero">
+      <div>
+        <p class="eyebrow">Интерактивное исследование</p>
+        <h1>Анатомия команды стартапа</h1>
+        <p class="lead">Исследуйте реальную команду, соберите собственную в условиях ограниченного бюджета и проверьте её кризисом.</p>
+        <div class="facts"><span>👥 Работа в группе</span><span>⏱ 25–30 минут</span><span>🧠 Решения без единственного ответа</span></div>
+        <button id="startBtn" class="primary">Начать расследование</button>
+      </div>
+      <div class="hero-art" aria-hidden="true"><div class="orbit">Лингвист</div><div class="orbit o2">Разработчик</div><div class="core">КОМАНДА</div><div class="orbit o3">Продакт</div><div class="orbit o4">Дизайнер</div></div>
+    </section>
+
+    <section id="workspace" class="screen">
+      <div class="progress"><span id="progressBar"></span></div>
+      <nav class="steps" aria-label="Этапы лаборатории">
+        <button data-step="0">1. Расследование</button>
+        <button data-step="1">2. Конструктор</button>
+        <button data-step="2">3. Кризис</button>
+        <button data-step="3">4. Паспорт</button>
+      </nav>
+      <div id="stage"></div>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
