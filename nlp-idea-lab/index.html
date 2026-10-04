@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Интерактивный конструктор идеи лингвистического стартапа">
+  <title>NLP Idea Lab — конструктор идеи стартапа</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#app" aria-label="NLP Idea Lab">
+      <span class="logo">NLP</span><span>Idea Lab</span>
+    </a>
+    <div class="status">
+      <span id="saveStatus">Сохранение включено</span>
+      <strong id="progressText">0%</strong>
+    </div>
+  </header>
+
+  <main id="app" class="shell">
+    <section id="welcome" class="screen hero active">
+      <div>
+        <p class="eyebrow">Проектная лаборатория</p>
+        <h1>Найдите идею для NLP‑стартапа</h1>
+        <p class="lead">Начните не с модной технологии, а с реальной проблемы. За шесть этапов команда подготовит первую проверяемую гипотезу проекта.</p>
+        <div class="facts">
+          <span>👥 Команда 3–4 человека</span>
+          <span>⏱ 25–30 минут</span>
+          <span>📄 Паспорт идеи в финале</span>
+        </div>
+        <button id="startBtn" class="primary big-button">Начать лабораторию</button>
+        <button id="resumeBtn" class="secondary big-button hidden">Продолжить сохранённую работу</button>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="spark s1">Проблема</div>
+        <div class="spark s2">Пользователь</div>
+        <div class="idea-core">ИДЕЯ<span>+ NLP</span></div>
+        <div class="spark s3">Данные</div>
+        <div class="spark s4">Прототип</div>
+      </div>
+    </section>
+
+    <section id="workspace" class="screen">
+      <div class="progress" aria-label="Прогресс"><span id="progressBar"></span></div>
+      <nav id="steps" class="steps" aria-label="Этапы лаборатории"></nav>
+      <div id="stage" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
