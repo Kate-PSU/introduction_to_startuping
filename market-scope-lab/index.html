@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Интерактивная лаборатория расчёта TAM, SAM и SOM для стартапа">
+  <title>Market Scope Lab — оценка рынка</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#app"><span class="logo">MS</span><span>Market Scope Lab</span></a>
+    <div class="status"><span id="saveStatus">Сохранение включено</span><strong id="progressText">0%</strong></div>
+  </header>
+
+  <main id="app" class="shell">
+    <section id="welcome" class="screen hero active">
+      <div>
+        <p class="eyebrow">Лаборатория оценки рынка</p>
+        <h1>Превратите рынок в проверяемый расчёт</h1>
+        <p class="lead">Разберитесь в TAM, SAM и SOM, найдите данные в доступных российских источниках и подготовьте обоснованную оценку рынка своего проекта.</p>
+        <div class="facts"><span>👥 Работа командой</span><span>⏱ 35–45 минут</span><span>🧮 Два метода расчёта</span><span>📄 Паспорт рынка</span></div>
+        <button id="startBtn" class="primary big-button">Начать исследование</button>
+        <button id="resumeBtn" class="secondary big-button hidden">Продолжить сохранённую работу</button>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="ring tam"><span>TAM</span></div>
+        <div class="ring sam"><span>SAM</span></div>
+        <div class="ring som"><span>SOM</span></div>
+      </div>
+    </section>
+
+    <section id="workspace" class="screen">
+      <div class="progress"><span id="progressBar"></span></div>
+      <nav id="steps" class="steps" aria-label="Этапы лаборатории"></nav>
+      <div id="stage" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <div id="feedback" class="modal" role="dialog" aria-modal="true" aria-labelledby="feedbackTitle">
+    <div class="modal-card">
+      <div id="feedbackIcon" class="modal-icon">✓</div>
+      <h2 id="feedbackTitle">Ответ</h2>
+      <p id="feedbackText"></p>
+      <button id="feedbackClose" class="primary">Понятно</button>
+    </div>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
