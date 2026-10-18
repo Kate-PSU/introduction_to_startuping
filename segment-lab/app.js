@@ -303,14 +303,71 @@ function bindValidation(){
 function chosenSegment(){return state.segments[state.chosen]||state.segments[0]}
 function jtbdText(){return `Когда ${state.jtbd.when}, я хочу ${state.jtbd.want}, чтобы ${state.jtbd.result}.`}
 
-function renderPassport(){
+function renderPassportLegacy(){
   const s=chosenSegment(),score=segmentScore(s),roles=state.roles;
   const body=`<div class="notice good no-print"><strong>Паспорт готов.</strong> Это рабочая гипотеза для интервью, а не окончательная истина о клиенте.</div><div class="metric-cards"><div class="metric"><small>Первый сегмент</small><strong>${esc(s.name)}</strong></div><div class="metric"><small>Оценка привлекательности</small><strong>${score}/25</strong></div><div class="metric"><small>Модель покупки</small><strong>${esc(state.model)}</strong></div></div><div class="passport"><section><h3>${esc(state.projectName)}</h3><p>${esc(state.product)}\nКоманда: ${esc(state.team||"не указана")}</p></section><section><h3>Первый целевой сегмент</h3><p><strong>${esc(s.name)}</strong>\nПользователь / покупатель: ${esc(s.user)}\nПроблема: ${esc(s.problem)}\nКонтекст: ${esc(s.context)}\n\nПочему выбран: ${esc(state.choiceReason)}</p></section><section><h3>Карта покупки</h3><p>Пользователь: ${esc(roles.user)}\nПокупатель: ${esc(roles.buyer)}\nЛПР: ${esc(roles.decision)}\nВлиятельное лицо: ${esc(roles.influencer||"не определено")}\nБлокирующая сторона: ${esc(roles.blocker||"не определена")}</p></section><section><h3>Job to Be Done</h3><p>${esc(jtbdText())}\n\nАльтернативы: ${esc(state.jtbd.alternatives)}\nТриггер: ${esc(state.jtbd.trigger)}\nБарьеры: ${esc(state.jtbd.barriers)}</p></section><section><h3>Портрет клиента</h3><p>Условное имя: ${esc(state.persona.name)}\nРоль: ${esc(state.persona.role)}\nРабочая среда: ${esc(state.persona.environment)}\nКритерий успеха: ${esc(state.persona.success)}\nФраза клиента: «${esc(state.persona.quote)}»</p></section><section><h3>План проверки</h3>${state.hypotheses.map((h,i)=>`<p><strong>${i+1}. ${esc(h.text)}</strong>\nМетод: ${esc(h.method)}\nКритерий: ${esc(h.criterion)}</p>`).join("")}</section><section class="no-print"><h3>Краткий вывод команды</h3><textarea id="conclusion" placeholder="Первым мы проверяем сегмент… Главная гипотеза…">${esc(state.conclusion)}</textarea></section></div><div class="actions no-print"><div><button class="ghost" data-back>← Назад</button></div><div class="right"><button class="secondary" id="copyBtn">Копировать паспорт</button><button class="primary" id="printBtn">Сохранить как PDF</button></div></div><div class="reset-row no-print"><button class="danger" id="resetBtn">Начать новый проект</button></div>`;
   return `<section class="panel"><div class="panel-head"><div><p class="eyebrow">Этап ${STEP_NAMES.length} из ${STEP_NAMES.length}</p><h2>Паспорт первого сегмента</h2><p class="intro">Используйте его как основу для рекрутинга респондентов, проблемных интервью и уточнения ценностного предложения.</p></div><div class="icon">📄</div></div>${body}</section>`;
 }
 
-function bindPassport(){
+function bindPassportLegacy(){
   bindValue("#conclusion","conclusion");
+  $("#copyBtn").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(reportText());notify("Паспорт скопирован")}catch{notify("Не удалось скопировать — сохраните как PDF")}});
+  $("#printBtn").addEventListener("click",()=>window.print());
+  $("#resetBtn").addEventListener("click",()=>{if(confirm("Удалить сохранённые ответы и начать заново?")){localStorage.removeItem(STORAGE_KEY);state=initialState();start(true)}});
+}
+
+function renderPassport(){
+  const s=chosenSegment(),score=segmentScore(s),roles=state.roles;
+  const methods=["Проблемное интервью","Наблюдение","Анализ обращений и отзывов","Анализ закупок","Лендинг / заявка","Пилотное использование","Иное"];
+  const roleFields=[["user","Пользователь"],["buyer","Покупатель / плательщик"],["decision","ЛПР"],["influencer","Влиятельное лицо"],["blocker","Блокирующая сторона"]];
+  const personaFields=[["name","Условное имя"],["role","Роль"],["environment","Рабочая среда"],["success","Критерий успеха"],["quote","Ключевая фраза клиента"]];
+  const body=`
+    <div class="notice good no-print"><strong>Паспорт готов и доступен для редактирования.</strong> Исправьте любые формулировки прямо здесь. Изменения сохраняются автоматически и попадут в копируемый текст и PDF.</div>
+    <div class="metric-cards"><div class="metric"><small>Первый сегмент</small><strong>${esc(s.name)}</strong></div><div class="metric"><small>Оценка привлекательности</small><strong>${score}/25</strong></div><div class="metric"><small>Модель покупки</small><strong>${esc(state.model)}</strong></div></div>
+    <div class="passport editable-passport">
+      <section><h3>Проект</h3><div class="form-grid">
+        <div class="field"><label>Название проекта</label><input data-pass-top="projectName" value="${esc(state.projectName)}"></div>
+        <div class="field"><label>Модель покупки</label><select data-pass-top="model">${MODELS.map(m=>`<option value="${m.id}" ${state.model===m.id?"selected":""}>${m.id}</option>`).join("")}</select></div>
+        <div class="field full"><label>Продукт и решаемая задача</label><textarea data-pass-top="product">${esc(state.product)}</textarea></div>
+        <div class="field full"><label>Команда</label><input data-pass-top="team" value="${esc(state.team)}" placeholder="Не указана"></div>
+      </div></section>
+      <section><h3>Первый целевой сегмент</h3><div class="form-grid">
+        <div class="field full"><label>Название сегмента</label><input data-pass-segment="name" value="${esc(s.name)}"></div>
+        <div class="field"><label>Пользователь / покупатель</label><textarea data-pass-segment="user">${esc(s.user)}</textarea></div>
+        <div class="field"><label>Проблема</label><textarea data-pass-segment="problem">${esc(s.problem)}</textarea></div>
+        <div class="field"><label>Контекст</label><textarea data-pass-segment="context">${esc(s.context)}</textarea></div>
+        <div class="field"><label>Почему выбран этот сегмент</label><textarea data-pass-top="choiceReason">${esc(state.choiceReason)}</textarea></div>
+      </div></section>
+      <section><h3>Карта покупки</h3><div class="form-grid">${roleFields.map(([key,label])=>`<div class="field"><label>${label}</label><textarea data-pass-role="${key}">${esc(roles[key])}</textarea></div>`).join("")}</div></section>
+      <section><h3>Job to Be Done</h3><div class="jtbd-grid">
+        <div class="field"><label>Когда…</label><textarea data-pass-jtbd="when">${esc(state.jtbd.when)}</textarea></div>
+        <div class="field"><label>Я хочу…</label><textarea data-pass-jtbd="want">${esc(state.jtbd.want)}</textarea></div>
+        <div class="field"><label>Чтобы…</label><textarea data-pass-jtbd="result">${esc(state.jtbd.result)}</textarea></div>
+      </div><div class="form-grid">
+        <div class="field"><label>Альтернативы</label><textarea data-pass-jtbd="alternatives">${esc(state.jtbd.alternatives)}</textarea></div>
+        <div class="field"><label>Триггер поиска</label><textarea data-pass-jtbd="trigger">${esc(state.jtbd.trigger)}</textarea></div>
+        <div class="field full"><label>Барьеры</label><textarea data-pass-jtbd="barriers">${esc(state.jtbd.barriers)}</textarea></div>
+      </div></section>
+      <section><h3>Портрет клиента</h3><div class="form-grid">${personaFields.map(([key,label])=>`<div class="field ${key==="quote"?"full":""}"><label>${label}</label><textarea data-pass-persona="${key}">${esc(state.persona[key])}</textarea></div>`).join("")}</div></section>
+      <section><h3>План проверки</h3><div class="hypothesis-list">${state.hypotheses.map((h,i)=>`<article class="hypothesis"><h4>Гипотеза ${i+1}</h4><div class="form-grid">
+        <div class="field full"><label>Предположение</label><textarea data-pass-hyp="${i}" data-pass-key="text">${esc(h.text)}</textarea></div>
+        <div class="field"><label>Метод</label><select data-pass-hyp="${i}" data-pass-key="method">${methods.map(m=>`<option ${h.method===m?"selected":""}>${m}</option>`).join("")}</select></div>
+        <div class="field"><label>Критерий подтверждения</label><textarea data-pass-hyp="${i}" data-pass-key="criterion">${esc(h.criterion)}</textarea></div>
+      </div></article>`).join("")}</div></section>
+      <section><h3>Краткий вывод команды</h3><textarea data-pass-top="conclusion" placeholder="Первым мы проверяем сегмент… Главная гипотеза…">${esc(state.conclusion)}</textarea></section>
+    </div>
+    <div class="actions no-print"><div><button class="ghost" data-back>← Назад</button></div><div class="right"><button class="secondary" id="copyBtn">Копировать паспорт</button><button class="primary" id="printBtn">Сохранить как PDF</button></div></div><div class="reset-row no-print"><button class="danger" id="resetBtn">Начать новый проект</button></div>`;
+  return `<section class="panel"><div class="panel-head"><div><p class="eyebrow">Этап ${STEP_NAMES.length} из ${STEP_NAMES.length}</p><h2>Паспорт первого сегмента</h2><p class="intro">Используйте его как основу для рекрутинга респондентов, проблемных интервью и уточнения ценностного предложения.</p></div><div class="icon">📄</div></div>${body}</section>`;
+}
+
+function bindPassport(){
+  const bind=(selector,update)=>{$$(selector).forEach(el=>{const handler=e=>{update(e.target);saveState()};el.addEventListener("input",handler);el.addEventListener("change",handler)})};
+  bind('[data-pass-top]',el=>{state[el.dataset.passTop]=el.value});
+  bind('[data-pass-segment]',el=>{chosenSegment()[el.dataset.passSegment]=el.value});
+  bind('[data-pass-role]',el=>{state.roles[el.dataset.passRole]=el.value});
+  bind('[data-pass-jtbd]',el=>{state.jtbd[el.dataset.passJtbd]=el.value});
+  bind('[data-pass-persona]',el=>{state.persona[el.dataset.passPersona]=el.value});
+  bind('[data-pass-hyp]',el=>{state.hypotheses[+el.dataset.passHyp][el.dataset.passKey]=el.value});
   $("#copyBtn").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(reportText());notify("Паспорт скопирован")}catch{notify("Не удалось скопировать — сохраните как PDF")}});
   $("#printBtn").addEventListener("click",()=>window.print());
   $("#resetBtn").addEventListener("click",()=>{if(confirm("Удалить сохранённые ответы и начать заново?")){localStorage.removeItem(STORAGE_KEY);state=initialState();start(true)}});
