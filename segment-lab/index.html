@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Интерактивная лаборатория выбора первого сегмента рынка и составления портрета клиента">
+  <title>Customer Lens Lab</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Customer Lens Lab">
+      <span class="logo">CL</span>
+      <span><strong>Customer Lens Lab</strong><small>Сегмент и портрет клиента</small></span>
+    </a>
+    <div class="status"><span id="saveStatus">Сохранение включено</span><strong id="progressText">10%</strong></div>
+  </header>
+  <div class="progress"><div id="progressBar"></div></div>
+
+  <main>
+    <section id="welcome" class="welcome active">
+      <div class="hero-copy">
+        <p class="eyebrow">Интерактивная лаборатория</p>
+        <h1>Найдите первого клиента, а не «всех пользователей»</h1>
+        <p class="lead">Сравните сегменты, разведите роли в покупке, сформулируйте Job to Be Done и подготовьте проверяемый портрет клиента.</p>
+        <div class="hero-actions">
+          <button id="startBtn" class="primary">Начать исследование →</button>
+          <button id="resumeBtn" class="secondary hidden">Продолжить</button>
+        </div>
+        <p class="privacy">Ответы сохраняются только в вашем браузере.</p>
+      </div>
+      <div class="lens-visual" aria-hidden="true">
+        <div class="orbit orbit-a"><span>пользователь</span></div>
+        <div class="orbit orbit-b"><span>покупатель</span></div>
+        <div class="orbit orbit-c"><span>ЛПР</span></div>
+        <div class="lens">🔎</div>
+      </div>
+    </section>
+
+    <section id="workspace" class="workspace">
+      <nav id="steps" class="steps" aria-label="Этапы лаборатории"></nav>
+      <div id="stage"></div>
+    </section>
+  </main>
+
+  <div id="feedback" class="modal" role="dialog" aria-modal="true" aria-labelledby="feedbackTitle">
+    <div class="modal-card">
+      <div id="feedbackIcon" class="modal-icon">✓</div>
+      <h2 id="feedbackTitle"></h2>
+      <p id="feedbackText"></p>
+      <button id="feedbackClose" class="primary">Понятно</button>
+    </div>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
