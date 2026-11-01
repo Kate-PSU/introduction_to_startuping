@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Интерактивная лаборатория формулирования идеи лингвистического стартапа">
+  <title>Idea Lab — формулируем идею стартапа</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Idea Lab — в начало">
+      <span class="brand-mark">IL</span>
+      <span><strong>Idea Lab</strong><small>Лингвистический стартап</small></span>
+    </a>
+    <div class="top-actions">
+      <span class="save-state" id="saveState" aria-live="polite">Черновик сохраняется</span>
+      <button class="icon-button" id="resetButton" type="button" title="Начать заново">↻</button>
+    </div>
+  </header>
+
+  <main id="top" class="shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Интерактивный практикум</p>
+        <h1>Превратите наблюдение в проверяемую идею</h1>
+        <p>Пройдите путь от пользовательской проблемы до нескольких формулировок проекта. Здесь нет «идеального ответа»: результатом станет рабочая гипотеза, которую можно проверить.</p>
+      </div>
+      <div class="hero-badge" aria-hidden="true">💡</div>
+    </section>
+
+    <section class="progress-panel" aria-label="Прогресс">
+      <div class="progress-copy"><strong id="stepLabel">Шаг 1 из 7</strong><span id="stepTitle">Исходные данные</span></div>
+      <div class="progress-track"><span id="progressBar"></span></div>
+      <nav class="step-dots" id="stepDots" aria-label="Переход по шагам"></nav>
+    </section>
+
+    <section class="workspace" id="workspace">
+      <article class="step active" data-step="0">
+        <div class="step-heading"><span class="step-icon">①</span><div><p class="eyebrow">Основа идеи</p><h2>Опишите не продукт, а ситуацию пользователя</h2></div></div>
+        <p class="lead">Используйте данные наблюдений и проблемных интервью. Если данных пока мало, честно отметьте предположение — позднее его можно заменить фактом.</p>
+        <div class="form-grid two">
+          <label>Рабочее название проекта<input data-field="project" type="text" placeholder="Например, TermBridge"></label>
+          <label>Целевой сегмент<input data-field="audience" type="text" placeholder="Не «все переводчики», а конкретная группа"></label>
+          <label class="wide">Ситуация, в которой возникает проблема<textarea data-field="situation" rows="3" placeholder="Когда, где и при выполнении какой задачи?"></textarea></label>
+          <label class="wide">Наблюдаемая проблема<textarea data-field="problem" rows="3" placeholder="Что пользователь не может сделать, делает медленно или с ошибками?"></textarea></label>
+          <label>Текущее решение или обходной путь<textarea data-field="alternative" rows="3" placeholder="Как справляются сейчас?"></textarea></label>
+          <label>Последствия проблемы<textarea data-field="consequence" rows="3" placeholder="Потери времени, денег, качества, возможностей"></textarea></label>
+          <label class="wide">Основание для гипотезы<textarea data-field="evidence" rows="3" placeholder="Интервью, наблюдение, статистика или пока только предположение"></textarea></label>
+        </div>
+        <aside class="hint"><strong>Проверка:</strong> проблема должна описывать затруднение пользователя, а не отсутствие вашего будущего продукта.</aside>
+      </article>
+
+      <article class="step" data-step="1">
+        <div class="step-heading"><span class="step-icon">②</span><div><p class="eyebrow">Design Thinking</p><h2>Сформулируйте пользовательский инсайт</h2></div></div>
+        <p class="lead">Переходите от общего описания к точке зрения пользователя — <em>Point of View</em>. Инсайт объясняет не только что трудно, но и почему это важно.</p>
+        <div class="form-grid two">
+          <label>Пользователь<input data-field="dtUser" type="text" placeholder="Кто именно сталкивается с ситуацией?"></label>
+          <label>Потребность<input data-field="dtNeed" type="text" placeholder="Что человеку необходимо сделать?"></label>
+          <label class="wide">Инсайт<textarea data-field="dtInsight" rows="3" placeholder="Почему существующий способ не подходит? Что скрыто за проблемой?"></textarea></label>
+        </div>
+        <div class="live-card"><span>Формулировка POV</span><p id="povPreview">[Пользователь] нуждается в [потребности], потому что [инсайт].</p></div>
+        <label class="standalone">Вопрос «Как мы можем…?»<textarea data-field="hmw" rows="3" placeholder="Как мы можем помочь [пользователю] [достичь результата], не создавая [ограничение]?"></textarea></label>
+        <aside class="hint"><strong>Хороший вопрос</strong> не содержит готового решения и допускает несколько принципиально разных ответов.</aside>
+      </article>
+
+      <article class="step" data-step="2">
+        <div class="step-heading"><span class="step-icon">③</span><div><p class="eyebrow">SCAMPER</p><h2>Получите семь направлений для решения</h2></div></div>
+        <p class="lead">Возьмите существующий процесс, инструмент или первый вариант решения. Не оценивайте идеи сразу — сначала расширьте пространство возможностей.</p>
+        <label class="standalone">Что преобразуем?<input data-field="scamperBase" type="text" placeholder="Например, ручное составление отраслевого глоссария"></label>
+        <div class="scamper-grid" id="scamperGrid">
+          <label><b>S</b><span>Substitute · Заменить</span><small>Что можно заменить: человека, источник, канал, этап, технологию?</small><textarea data-field="scS" rows="3"></textarea></label>
+          <label><b>C</b><span>Combine · Объединить</span><small>Какие функции, данные или сервисы можно соединить?</small><textarea data-field="scC" rows="3"></textarea></label>
+          <label><b>A</b><span>Adapt · Адаптировать</span><small>Какой подход из другой сферы можно перенести сюда?</small><textarea data-field="scA" rows="3"></textarea></label>
+          <label><b>M</b><span>Modify · Изменить</span><small>Что увеличить, уменьшить, ускорить, персонализировать?</small><textarea data-field="scM" rows="3"></textarea></label>
+          <label><b>P</b><span>Put to another use · Применить иначе</span><small>Для какой новой аудитории или задачи пригодится решение?</small><textarea data-field="scP" rows="3"></textarea></label>
+          <label><b>E</b><span>Eliminate · Устранить</span><small>Какой этап, функция или сложность не обязательны?</small><textarea data-field="scE" rows="3"></textarea></label>
+          <label><b>R</b><span>Reverse · Перестроить</span><small>Что произойдёт, если изменить порядок, роли или логику?</small><textarea data-field="scR" rows="3"></textarea></label>
+        </div>
+        <label class="standalone">Три наиболее перспективных варианта<textarea data-field="shortlist" rows="4" placeholder="Перечислите варианты и кратко объясните выбор"></textarea></label>
+      </article>
+
+      <article class="step" data-step="3">
+        <div class="step-heading"><span class="step-icon">④</span><div><p class="eyebrow">Выбор направления</p><h2>Сравните варианты до привязанности к любимой идее</h2></div></div>
+        <p class="lead">Оценка не доказывает успех, но помогает выбрать следующую гипотезу для проверки. Поставьте от 1 до 5 по каждому критерию.</p>
+        <div id="ideaCards" class="idea-cards"></div>
+        <button class="secondary-button" id="addIdea" type="button">＋ Добавить вариант</button>
+        <label class="standalone">Выбранное направление<textarea data-field="selectedIdea" rows="3" placeholder="Какой вариант вы проверите первым и почему?"></textarea></label>
+      </article>
+
+      <article class="step" data-step="4">
+        <div class="step-heading"><span class="step-icon">⑤</span><div><p class="eyebrow">Ценностное предложение</p><h2>Соберите идею в одну ясную фразу</h2></div></div>
+        <div class="form-grid two">
+          <label>Решение<input data-field="solution" type="text" placeholder="Что вы создаёте?"></label>
+          <label>Ценность<input data-field="value" type="text" placeholder="Какой измеримый или наблюдаемый результат получает пользователь?"></label>
+          <label class="wide">Ключевое отличие<textarea data-field="difference" rows="3" placeholder="Почему этот способ лучше текущих альтернатив именно для выбранного сегмента?"></textarea></label>
+        </div>
+        <div class="live-card accent"><span>Формула идеи</span><p id="oneLinePreview">Для [аудитории], которая сталкивается с [проблемой], мы создаём [решение], позволяющее получить [ценность]. В отличие от [альтернатив], наше решение [ключевое отличие].</p></div>
+        <label class="standalone">Версия без терминов и профессионального жаргона<textarea data-field="plainVersion" rows="3" placeholder="Объясните идею человеку вне вашей специальности"></textarea></label>
+      </article>
+
+      <article class="step" data-step="5">
+        <div class="step-heading"><span class="step-icon">⑥</span><div><p class="eyebrow">SMART</p><h2>Поставьте цель первого эксперимента</h2></div></div>
+        <p class="lead">SMART применяется не для обещания «создать лучший продукт», а для ближайшей проверки ключевого допущения.</p>
+        <div class="smart-grid">
+          <label><b>S</b><span>Specific · Что сделаем?</span><textarea data-field="smartS" rows="3" placeholder="Конкретное действие"></textarea></label>
+          <label><b>M</b><span>Measurable · Что измерим?</span><textarea data-field="smartM" rows="3" placeholder="Показатель и критерий решения"></textarea></label>
+          <label><b>A</b><span>Achievable · Какой объём реалистичен?</span><textarea data-field="smartA" rows="3" placeholder="Респонденты, данные, функции прототипа"></textarea></label>
+          <label><b>R</b><span>Relevant · Какую гипотезу проверим?</span><textarea data-field="smartR" rows="3" placeholder="Почему результат важен для проекта"></textarea></label>
+          <label><b>T</b><span>Time-bound · К какому сроку?</span><input data-field="smartT" type="date"></label>
+        </div>
+        <div class="live-card"><span>SMART-цель</span><p id="smartPreview">К [сроку] мы [действие] в объёме [реалистичный масштаб], измерим [показатель], чтобы проверить [гипотезу].</p></div>
+        <label class="standalone">Какое решение примет команда после результата?<textarea data-field="decisionRule" rows="3" placeholder="Если…, то продолжаем / изменяем / отказываемся…"></textarea></label>
+      </article>
+
+      <article class="step" data-step="6">
+        <div class="step-heading"><span class="step-icon">⑦</span><div><p class="eyebrow">Пакет формулировок</p><h2>Сравните и сохраните результат</h2></div></div>
+        <p class="lead">Одна идея звучит по-разному в зависимости от задачи. Проверьте, не противоречат ли формулировки друг другу.</p>
+        <div class="results" id="results"></div>
+        <div class="final-check">
+          <h3>Финальная самопроверка</h3>
+          <label><input type="checkbox" data-check="user"> Указан конкретный пользователь, а не «все».</label>
+          <label><input type="checkbox" data-check="problem"> Проблема описана как наблюдаемая ситуация.</label>
+          <label><input type="checkbox" data-check="alternatives"> Учтены существующие альтернативы.</label>
+          <label><input type="checkbox" data-check="hypothesis"> Формулировка признаётся гипотезой, а не доказанным фактом.</label>
+          <label><input type="checkbox" data-check="experiment"> Есть ближайший измеримый эксперимент и правило решения.</label>
+        </div>
+        <div class="export-actions">
+          <button class="primary-button" id="downloadMd" type="button">Скачать результат .md</button>
+          <button class="secondary-button" id="copyResult" type="button">Копировать</button>
+          <button class="secondary-button" id="printResult" type="button">Печать / PDF</button>
+        </div>
+      </article>
+    </section>
+
+    <footer class="navigation">
+      <button class="secondary-button" id="prevButton" type="button">← Назад</button>
+      <span id="navHint">Все поля можно изменить позже</span>
+      <button class="primary-button" id="nextButton" type="button">Далее →</button>
+    </footer>
+  </main>
+
+  <dialog id="resetDialog">
+    <h2>Начать заново?</h2>
+    <p>Сохранённый в этом браузере черновик будет удалён.</p>
+    <div><button class="secondary-button" id="cancelReset" type="button">Отмена</button><button class="danger-button" id="confirmReset" type="button">Удалить черновик</button></div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
